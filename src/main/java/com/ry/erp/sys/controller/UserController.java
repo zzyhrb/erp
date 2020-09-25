@@ -6,12 +6,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * <p>
- *  前端控制器
- * </p>
- *
- * @author 老雷
- * @since 2019-09-20
+ * @description:前端控制器
+ * @author zzy
+ * @date 2020/9/25 15:07
  */
 @RestController
 @RequestMapping("/sys/user")

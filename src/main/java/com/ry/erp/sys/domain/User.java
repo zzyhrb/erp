@@ -12,12 +12,9 @@ import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
 /**
- * <p>
- * 
- * </p>
- *
- * @author 老雷
- * @since 2019-09-20
+ * @description:
+ * @author zzy
+ * @date 2020/9/25 14:21
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
