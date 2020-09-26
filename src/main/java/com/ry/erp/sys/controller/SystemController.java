@@ -22,5 +22,14 @@ public class SystemController {
 	public String index() {
 		return "system/index/index";
 	}
+
+	/**
+	 * 主页
+	 */
+	@RequestMapping("toDeskManager")
+	public String toDeskManager(){
+		return "system/index/deskManager";
+	}
+
 	
 }
