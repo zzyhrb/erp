@@ -18,7 +18,7 @@ import java.io.Serializable;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-@TableName("sys_ permission")
+@TableName("sys_permission")
 public class Permission implements Serializable {
 
     @TableId(value = "id", type= IdType.AUTO)
