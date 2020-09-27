@@ -31,5 +31,10 @@ public class SystemController {
 		return "system/index/deskManager";
 	}
 
+	@RequestMapping("toLogininfoManager")
+	public String toLogininfoManager(){
+		return "system/loginfo/loginfoManager";
+	}
+
 	
 }

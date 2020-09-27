@@ -4,12 +4,9 @@ import com.ry.erp.sys.domain.User;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**
- * <p>
- *  Mapper 接口
- * </p>
- *
- * @author 老雷
- * @since 2019-09-20
+ * @description:Mapper接口
+ * @author zzy
+ * @date 2020/9/27 9:37
  */
 public interface UserMapper extends BaseMapper<User> {
 
