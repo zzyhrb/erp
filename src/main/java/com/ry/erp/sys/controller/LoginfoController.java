@@ -72,6 +72,7 @@ public class LoginfoController {
      * @author zzy
      * @date 2020/9/27 14:20
      */
+    @RequestMapping("batchDeleteLoginfo")
     public ResultObj batchDeleteLoginfo(LoginfoVo loginfoVo){
 
         try{
