@@ -1,5 +1,7 @@
 package com.ry.erp.sys.domain;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -19,6 +21,8 @@ import java.util.Date;
 @TableName("sys_loginfo")
 public class Loginfo implements Serializable {
 
+    private  static final long serialVersionUID=1L;
+    @TableId(value = "id", type = IdType.AUTO)
     private Integer	id;
     private String	loginname;
     private String	loginip;

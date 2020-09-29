@@ -31,9 +31,20 @@ public class SystemController {
 		return "system/index/deskManager";
 	}
 
+	/**
+	 *登录日志
+	 */
 	@RequestMapping("toLogininfoManager")
 	public String toLogininfoManager(){
 		return "system/loginfo/loginfoManager";
+	}
+	/**
+	 * 跳转到公告管理
+	 *
+	 */
+	@RequestMapping("toNoticeManager")
+	public String toNoticeManager() {
+		return "system/notice/noticeManager";
 	}
 
 	

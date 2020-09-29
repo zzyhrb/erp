@@ -21,6 +21,8 @@ import java.io.Serializable;
 @TableName("sys_permission")
 public class Permission implements Serializable {
 
+    private static final  long serialiVersionUID=1L;
+
     @TableId(value = "id", type= IdType.AUTO)
     private Integer	id;
     /**
