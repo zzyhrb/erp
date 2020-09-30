@@ -136,6 +136,8 @@
 			elem:'#endTime',
 			type:'datetime'
 		});
+		//初始化富文本
+		var editIndex = layedit.build('content');
 
 		//初始化数据表格
 		var tableIns =table.render({
@@ -156,6 +158,7 @@
 
 		})
 
+
 		//模糊查询
 		form.on("submit(doSearch)",function(data){
 			tableIns.reload({
@@ -167,10 +170,10 @@
 			return false;
 		})
 
-		//监听头工具栏时间
+		//监听头工具栏事件
 		table.on('toolbar(noticeTable)',function(obj){
 			switch (obj.event) {
-				case 'add';
+				case 'add':
 					openAddLayer();
 					break;
 				case 'batchDelete':
@@ -184,7 +187,7 @@
 		table.on('tool(noticeTable)',function (obj) {
 			var  data =obj.data; //获取选中行数据
 			switch (obj.event) {
-				case 'update';
+				case 'update':
 					openUpdateNotice(data);
 					break;
 				case 'delete':
@@ -198,7 +201,51 @@
 
 		})
 
+		var mainIndex;
+		var url;
+		//打开添加的弹出层
+		function openAddLayer(){
+			mainIndex=layer.open({
+				type:1,
+				content:$("#addOrUpdateDiv"),
+				area:['800px','600px'],
+				title:'发布公告',
+				success:function(){
+					$("#dataFrm")[0].reset();
+					layedit.setContent(editIndex,"");
+					url="/notice/addNotice";
+				}
+			});
+		}
+		//打开修改的弹出层
+		function openUpdateNotice(data){
+			mainIndex=layer.open({
+				type:1,
+				content:$("#addOrUpdateDiv"),
+				area:['800px','600px'],
+				title:'修改公告',
+				success:function(){
+					$("#dataFrm")[0].reset();
+					//装载新的数据
+					form.val("dataFrm",data);
+					layedit.setContent(editIndex,data.content);
+					url="/notice/updateNotice";
+				}
+			});
+		}
 
+		$("#doSubmit").click(function(){
+			//同步富文本和textarea里面的内容
+			layedit.sync(editIndex);
+			var data=$("#dataFrm").serialize();
+			$.post(url,data,function(res){
+				if(res.code==200){
+					tableIns.reload();
+				}
+				layer.msg(res.msg);
+				layer.close(mainIndex);
+			})
+		})
 		//删除
 		function deleteNotice(data){
 			layer.confirm('你确定要删除【'+data.title+'】这条公告吗?', {icon: 3, title:'提示'}) , function(index){
@@ -229,7 +276,6 @@
 							ids +="&ids="+item.id;
 						}
 					})
-
 
 					$.post('/notice/bachNotice',ids,function (res) {
 						if(res.code==200){
