@@ -233,6 +233,26 @@
 				}
 			});
 		}
+        //打开查看弹出层
+        function showNotice(data){
+            mainIndex = layer.open({
+                type: 1,
+                content: $('#showNoticeDiv'), //这里content是一个普通的String
+                area: ['800px', '600px'],
+                title:'公告详情',
+                success: function(){
+                    $("#show_title").html(data.title);
+                    $("#show_opername").html(data.opername);
+                    $("#show_createtime").html(data.createtime);
+                    $("#show_content").html(data.content);
+                }
+
+
+            })
+
+
+        }
+
 
 		$("#doSubmit").click(function(){
 			//同步富文本和textarea里面的内容
