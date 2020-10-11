@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ry.erp.sys.common.DataGridView;
+import com.ry.erp.sys.common.ResultObj;
 import com.ry.erp.sys.common.TreeNode;
 import com.ry.erp.sys.domain.Dept;
 import com.ry.erp.sys.service.DeptService;
@@ -14,8 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  * @author: zzy
@@ -59,6 +59,79 @@ public class DeptController {
         this.deptService.page(page,queryWrapper);
         return new DataGridView(page.getTotal(),page.getRecords());
 
+    }
+
+    /**
+     * 部门添加
+     * @param deptVo
+     * @return
+     */
+    @RequestMapping("addDept")
+    public ResultObj addDept(DeptVo deptVo){
+        try {
+            deptVo.setCreatetime(new Date());
+            this.deptService.save(deptVo);
+            return ResultObj.ADD_SUCCESS;
+        }catch (Exception e){
+            e.printStackTrace();
+            return ResultObj.ADD_ERROR;
+        }
+
+
+    }
+
+    /**
+     * 部门修改
+     * @param deptVo
+     * @return
+     */
+    @RequestMapping("updateDept")
+    public ResultObj updateDept(DeptVo deptVo){
+        try {
+            this.deptService.updateById(deptVo);
+            return  ResultObj.UPDATE_SUCCESS;
+        }catch (Exception e){
+            e.printStackTrace();
+            return ResultObj.UPDATE_ERROR;
+        }
+
+
+    }
+
+    /**
+     * 查询当前id部门下有没有字部门
+     * @param deptVo
+     * @return
+     */
+    @RequestMapping("checkDeptHasChildrenNode")
+    public Map<String,Object> checkDeptHasChildrenNode(DeptVo deptVo){
+        Map<String,Object> map =new HashMap<String,Object>();
+        QueryWrapper<Dept> queryWrapper =new QueryWrapper<>();
+        queryWrapper.eq("pid",deptVo.getId());
+        List<Dept> list =  this.deptService.list(queryWrapper);
+        if(list.size()>0){
+            map.put("value",true);
+        }else {
+            map.put("value",false);
+        }
+
+        return map;
+    }
+
+    /**
+     * 删除
+     * @param deptVo
+     * @return
+     */
+    @RequestMapping("deleteDept")
+    public ResultObj deleteDept(DeptVo deptVo) {
+        try {
+            this.deptService.removeById(deptVo.getId());
+            return ResultObj.DELETE_SUCCESS;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResultObj.DELETE_ERROR;
+        }
     }
 
 

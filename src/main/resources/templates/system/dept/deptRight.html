@@ -13,6 +13,9 @@
     <link rel="icon" href="/favicon.ico">
     <link rel="stylesheet" href="/resources/layui/css/layui.css" media="all" />
     <link rel="stylesheet" href="/resources/css/public.css" media="all" />
+    <link rel="stylesheet" href="/resources/layui_ext/dtree/dtree.css" media="all" />
+    <link rel="stylesheet" href="/resources/layui_ext/dtree/font/dtreefont.css" media="all" />
+
 </head>
 <body class="childrenBody">
 <!-- 查询条件开始 -->
@@ -67,16 +70,51 @@
 <div style="display: none;padding: 5px" id="addOrUpdateDiv">
     <form action="" method="post" class="layui-form layui-form-pane" id="dataFrm" lay-filter="dataFrm">
         <div class="layui-form-item">
-            <label class="layui-form-label">部门名称</label>
+            <label class="layui-form-label">父级部门</label>
             <div class="layui-input-block">
-                <input type="hidden" name="id">
-                <input type="text" name="title" lay-verify="required" autocomplete="off" placeholder="请输入名称" class="layui-input">
+                <input type="hidden" name="pid" id="pid">
+                <ul id="deptTree" class="dtree" data-id="0"></ul>
             </div>
         </div>
         <div class="layui-form-item">
-            <label class="layui-form-label">部门描述</label>
+            <label class="layui-form-label">部门名称</label>
             <div class="layui-input-block">
-                <textarea class="layui-textarea" name="content" id="content"></textarea>
+                <input type="hidden" name="id">
+                <input type="text" name="title" lay-verify="required" autocomplete="off" placeholder="请输入部门名称" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">部门地址</label>
+            <div class="layui-input-block">
+                <input type="text" name="address" lay-verify="required" autocomplete="off" placeholder="请输入部门地址" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">部门备注</label>
+            <div class="layui-input-block">
+                <textarea class="layui-textarea" name="remark" id="content"></textarea>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">是否展开</label>
+                <div class="layui-input-inline">
+                    <input type="radio" name="open" value="1" title="展开" checked="">
+                    <input type="radio" name="open" value="0" title="不展开" >
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">是否可用</label>
+                <div class="layui-input-inline">
+                    <input type="radio" name="available" value="1" title="可用" checked="">
+                    <input type="radio" name="available" value="0" title="不可用" >
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">排序码</label>
+            <div class="layui-input-inline">
+                <input type="text" name="ordernum" id="ordernum" lay-verify="required|number"  autocomplete="off" placeholder="请输入排序码[>0]" class="layui-input">
             </div>
         </div>
         <div class="layui-form-item">
@@ -87,6 +125,7 @@
         </div>
     </form>
 </div>
+
 <!-- 添加和修改的弹出层结束 -->
 
 
@@ -94,11 +133,14 @@
 <script type="text/javascript" src="/resources/layui/layui.js"></script>
 <script type="text/javascript">
     var tableIns
-    layui.use(['jquery','form','table','layer'],function(){
+    layui.extend({
+        dtree: '/resources/layui_ext/dtree/dtree'   // {/}的意思即代表采用自有路径，即不跟随 base 路径
+    }).use(['jquery','form','table','layer','dtree'],function(){
         var $=layui.jquery;
         var form=layui.form;
         var table=layui.table;
         var layer=layui.layer;
+        var  dtree =layui.dtree;
 
         //初始化数据表格
          tableIns =table.render({
@@ -141,31 +183,26 @@
         })
 
         //监听头工具栏事件
-        table.on('toolbar(noticeTable)',function(obj){
+        table.on('toolbar(deptTable)',function(obj){
             switch (obj.event) {
                 case 'add':
                     openAddLayer();
-                    break;
-                case 'batchDelete':
-                    backDelete();
                     break;
             }
 
         })
 
         //监听行工具事件
-        table.on('tool(noticeTable)',function (obj) {
+        table.on('tool(deptTable)',function (obj) {
             var  data =obj.data; //获取选中行数据
             switch (obj.event) {
                 case 'update':
                     openUpdateNotice(data);
                     break;
                 case 'delete':
-                    deleteNotice(data);
+                    deleteDept(data);
                     break;
-                case 'show':
-                    showNotice(data);
-                    break;
+
             }
 
 
@@ -179,11 +216,10 @@
                 type:1,
                 content:$("#addOrUpdateDiv"),
                 area:['800px','600px'],
-                title:'发布公告',
+                title:'添加部门',
                 success:function(){
                     $("#dataFrm")[0].reset();
-                    layedit.setContent(editIndex,"");
-                    url="/notice/addNotice";
+                    url="/dept/addDept";
                 }
             });
         }
@@ -193,92 +229,73 @@
                 type:1,
                 content:$("#addOrUpdateDiv"),
                 area:['800px','600px'],
-                title:'修改公告',
+                title:'修改部门',
                 success:function(){
                     $("#dataFrm")[0].reset();
                     //装载新的数据
                     form.val("dataFrm",data);
-                    layedit.setContent(editIndex,data.content);
-                    url="/notice/updateNotice";
+                    url="/dept/updateDept";
                 }
             });
         }
-        //打开查看弹出层
-        function showNotice(data){
-            mainIndex = layer.open({
-                type: 1,
-                content: $('#showNoticeDiv'), //这里content是一个普通的String
-                area: ['800px', '600px'],
-                title:'公告详情',
-                success: function(){
-                    $("#show_title").html(data.title);
-                    $("#show_opername").html(data.opername);
-                    $("#show_createtime").html(data.createtime);
-                    $("#show_content").html(data.content);
-                }
 
-
-            })
-
-
-        }
 
 
         $("#doSubmit").click(function(){
-            //同步富文本和textarea里面的内容
-            layedit.sync(editIndex);
+
             var data=$("#dataFrm").serialize();
             $.post(url,data,function(res){
                 if(res.code==200){
                     tableIns.reload();
+                    //刷新左侧下拉树
+                    window.parent.left.deptTree.reload();
+                    //刷新树
+                    selectTree.reload();
+
+
+
                 }
                 layer.msg(res.msg);
                 layer.close(mainIndex);
             })
         })
         //删除
-        function deleteNotice(data){
-            layer.confirm('你确定要删除【'+data.title+'】这条公告吗?', {icon: 3, title:'提示'}) , function(index){
-                $.post("/notice/deleteNotoce",{id:data.id},function(res){
-                    if(res.code == 200){
-                        tableIns.renderer();
-                    }
-                    layer.msg(res.msg);
-                })
-                layer.close(index)
-            }
+        function deleteDept(data){
 
-        }
-
-        //批量删除
-        function backDelete(){
-            //得到选中行
-            var checkStatus = table.checkStatus('noticeTable');
-            var dataLength=checkStatus.data.length;
-            if(dataLength>0){
-                layer.confirm('你确定要删除【'+data.title+'】这条公告吗?', {icon: 3, title:'提示'}),function(index){
-                    var dta =checkStatus.data; //获取选中行
-                    var ids='';
-                    $.each(data,function(index,item){
-                        if(index ==0){
-                            ids +="ids="+item.id
-                        }else{
-                            ids +="&ids="+item.id;
-                        }
-                    })
-
-                    $.post('/notice/bachNotice',ids,function (res) {
-                        if(res.code==200){
-                            tableIns.render();
-                        }
-                        layer.msg(res.msg);
-                    })
-                    layer.close(index)
+            $.post("/dept/checkDeptHasChildrenNode",{id:data.id},function(result){
+                if(result.value){
+                    layer.msg("当前部门节点有子部门，请选择删除子部门");
+                }else{
+                    layer.confirm('你确定要删除【'+data.title+'】这条部门吗?', {icon: 3, title:'提示'}, function(index){
+                        $.post("/dept/deleteDept",{id:data.id},function(res){
+                            if(res.code==200){
+                                tableIns.reload();
+                                //刷新下拉树
+                                selectTree.reload();
+                                //刷新左边的部门树
+                                window.parent.left.deptTree.reload();
+                            }
+                            layer.msg(res.msg);
+                        })
+                        layer.close(index);
+                    });
                 }
-            }
-
+            })
         }
-
+        //初始化下拉树
+        var selectTree=dtree.renderSelect({
+            elem: "#deptTree",
+            width: "100%", // 可以在这里指定树的宽度来填满div
+            dataStyle: "layuiStyle",  //使用layui风格的数据格式
+            dataFormat: "list",  //配置data的风格为list
+            response:{message:"msg",statusCode:0},  //修改response中返回数据的定义
+            url: "/dept/loadDeptManagerLeftTreeJson" // 使用url加载（可与data加载同时存在）
+        });
+        //监听点击的方法
+        dtree.on("node(deptTree)" ,function(obj){
+            $("#pid").val(obj.param.nodeId);
+            console.log(obj.param.nodeId); // 点击当前节点传递的参数
+        });
 
     });
 
