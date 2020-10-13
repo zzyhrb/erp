@@ -1,4 +1,6 @@
 #配置数据源的属性
+server:
+  port: 8081 # 端口
 spring:
   datasource:
     druid:
@@ -27,7 +29,6 @@ spring:
 #      web-stat-filter: 
 #        enabled: true
 #        exclusions: "*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*"
-
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
     time-zone: GMT+8

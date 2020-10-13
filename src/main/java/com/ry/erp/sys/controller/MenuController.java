@@ -7,18 +7,16 @@ import com.ry.erp.sys.domain.User;
 import com.ry.erp.sys.service.PermissionService;
 import com.ry.erp.sys.vo.PermissionVo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author: zzy
- * @Date: $ $
- * @Description:
+ * @description: 菜单控制器
+ * @author zzy
+ * @date 2020/10/13 15:09
  */
 @RestController
 @RequestMapping("/menu")
@@ -27,6 +25,11 @@ public class MenuController {
     @Autowired
     private PermissionService permissionService;
 
+    /**
+     * 加载左侧菜单树json
+     * @param permissionVo
+     * @return
+     */
     @RequestMapping("loadIndexLeftMenuJson")
     public DataGridView loadindexLeftMenuJson(PermissionVo permissionVo){
 
@@ -59,5 +62,27 @@ public class MenuController {
         List<TreeNode> list2 = TreeNodeBuilder.build(treeNodes, 1);
         return new DataGridView(list2);
     }
+
+
+    /**
+     * 菜单左侧json 树
+     * @param permissionVo
+     * @return
+     */
+    @RequestMapping("loadMenuManagerLeftTreeJson")
+    public DataGridView loadMenuManagerLeftTreeJson(PermissionVo permissionVo){
+        List<Permission> list =this.permissionService.list();
+        List<TreeNode> treeNodes =new ArrayList<>();
+        for(Permission permission:list){
+            boolean spread =permission.getOpen()==1?true:false;
+            treeNodes.add(new TreeNode(permission.getId(),permission.getPid(),permission.getTitle(),spread));
+        }
+        return new DataGridView(treeNodes);
+
+    }
+
+
+
+
 
 }
