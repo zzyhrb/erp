@@ -5,6 +5,7 @@ import com.ry.erp.sys.mapper.UserMapper;
 import com.ry.erp.sys.service.UserService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * @description:用户服务类实现
@@ -12,6 +13,9 @@ import org.springframework.stereotype.Service;
  * @date 2020/9/25 10:57
  */
 @Service
+@Transactional
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {
+
+
 
 }

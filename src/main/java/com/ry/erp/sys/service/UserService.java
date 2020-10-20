@@ -8,6 +8,13 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @author zzy
  * @date 2020/9/25 10:57
  */
+
 public interface UserService extends IService<User> {
+    /**
+     * 保存用户和角色之间的关系
+     * @param uid
+     * @param ids
+     */
+    void saveUserRole(Integer uid, Integer[] ids);
 
 }

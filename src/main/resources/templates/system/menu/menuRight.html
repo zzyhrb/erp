@@ -69,6 +69,7 @@
                         <input type="hidden" name="pid" id="pid" lay-verify="required">
                         <ul id="menuTree" class="dtree" data-id="0"></ul>
                     </div>
+
                 </div>
                 <div class="layui-form-item">
                     <label class="layui-form-label">菜单名称</label>
@@ -231,6 +232,11 @@
                         success:function(){
                             $("#dataFrm")[0].reset();
                             url="/menu/addMenu";
+                            //初始化排序码
+                            $.get("/menu/loadMenuMaxOrderNum",function(res){
+                                $("#ordernum").val(res.value);
+                            });
+                            selectTree.setSelectValue("");
                         }
                     });
                 }
@@ -240,7 +246,7 @@
                         type:1,
                         content:$("#addOrUpdateDiv"),
                         area:['800px','600px'],
-                        title:'修改部门',
+                        title:'修改菜单',
                         success:function(){
                             $("#dataFrm")[0].reset();
                             //装载新的数据
@@ -252,38 +258,34 @@
 
 
 
-                $("#doSubmit").click(function(){
-
-                    var data=$("#dataFrm").serialize();
-                    $.post(url,data,function(res){
+                form.on("submit(doSubmit)",function(data){
+                    $.post(url,data.field,function(res){
                         if(res.code==200){
                             tableIns.reload();
-                            //刷新左侧下拉树
-                            window.parent.left.deptTree.reload();
-                            //刷新树
+                            //刷新下拉树
                             selectTree.reload();
-
-
-
+                            //刷新左边的菜单树
+                            window.parent.left.menuTree.reload();
                         }
                         layer.msg(res.msg);
                         layer.close(mainIndex);
                     })
+                    return false;
                 })
                 //删除
                 function deleteMenu(data){
 
                     $.post("/menu/checkMenuHasChildrenNode",{id:data.id},function(result){
                         if(result.value){
-                            layer.msg("当前部门节点有子部门，请选择删除子部门");
+                            layer.msg("当前菜单节点有子菜单，请选择删除子菜单");
                         }else{
-                            layer.confirm('你确定要删除【'+data.title+'】这条部门吗?', {icon: 3, title:'提示'}, function(index){
-                                $.post("/menun/deleteMenu",{id:data.id},function(res){
+                            layer.confirm('你确定要删除【'+data.title+'】这条菜单吗?', {icon: 3, title:'提示'}, function(index){
+                                $.post("/menu/deleteMenu",{id:data.id},function(res){
                                     if(res.code==200){
                                         tableIns.reload();
                                         //刷新下拉树
                                         selectTree.reload();
-                                        //刷新左边的部门树
+                                        //刷新左边的菜单树
                                         window.parent.left.deptTree.reload();
                                     }
                                     layer.msg(res.msg);

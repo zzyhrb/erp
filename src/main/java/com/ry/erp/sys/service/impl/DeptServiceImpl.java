@@ -6,6 +6,7 @@ import com.ry.erp.sys.domain.Dept;
 import com.ry.erp.sys.mapper.DeptMapper;
 import com.ry.erp.sys.service.DeptService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.Serializable;
 
@@ -15,6 +16,7 @@ import java.io.Serializable;
  * @Description:
  */
 @Service
+@Transactional
 public class DeptServiceImpl extends ServiceImpl<DeptMapper, Dept> implements DeptService {
 
 

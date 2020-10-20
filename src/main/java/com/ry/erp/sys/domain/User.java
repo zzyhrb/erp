@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 
@@ -62,5 +63,16 @@ public class User implements Serializable {
     private String salt;
 
 
+    /**
+     * 领导名称
+     *
+     */
+    @TableField(exist = false)
+    private String leadername;
+    /**
+     * 部门名称
+     */
+    @TableField(exist = false)
+    private String deptname;
 
 }
