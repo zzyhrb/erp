@@ -23,6 +23,7 @@
         <log4j.version>1.2.17</log4j.version>
         <hutool.version>4.6.6</hutool.version>
         <lang3.version>3.9</lang3.version>
+        <pinyin4j.version>2.5.1</pinyin4j.version>
     </properties>
 
     <dependencies>
@@ -90,6 +91,15 @@
             <artifactId>thymeleaf-extras-shiro</artifactId>
             <version>2.0.0</version>
         </dependency>
+
+        <dependency>
+            <groupId>com.belerweb</groupId>
+            <artifactId>pinyin4j</artifactId>
+            <version>${pinyin4j.version}</version>
+        </dependency>
+
+
+
 
         <!-- 引入druid的依赖 -->
         <dependency>

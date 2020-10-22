@@ -2,6 +2,12 @@ package com.ry.erp.sys.common;
 
 public interface Constast {
 
+
+	/**
+	 * 用户默认密码
+	 */
+	public static final String USER_DEFAULT_PWD="123456";
+
 	/**
 	 * 状态码
 	 *

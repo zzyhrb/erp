@@ -121,6 +121,7 @@
     <orderEntry type="library" name="Maven: org.apache.shiro:shiro-event:1.4.1" level="project" />
     <orderEntry type="library" name="Maven: org.apache.shiro:shiro-web:1.4.1" level="project" />
     <orderEntry type="library" name="Maven: com.github.theborakompanioni:thymeleaf-extras-shiro:2.0.0" level="project" />
+    <orderEntry type="library" name="Maven: com.belerweb:pinyin4j:2.5.1" level="project" />
     <orderEntry type="library" name="Maven: com.alibaba:druid-spring-boot-starter:1.1.18" level="project" />
     <orderEntry type="library" name="Maven: com.alibaba:druid:1.1.18" level="project" />
     <orderEntry type="library" name="Maven: org.slf4j:slf4j-api:1.7.28" level="project" />

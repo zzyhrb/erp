@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.ry.erp.sys.domain.User;
 import com.ry.erp.sys.service.UserService;
+import org.springframework.context.annotation.Lazy;
 
 /**
  * @author: zzy
@@ -23,6 +24,7 @@ import com.ry.erp.sys.service.UserService;
  */
 public class UserRealm extends AuthorizingRealm {
     @Autowired
+    @Lazy
     private UserService userService;
 
     @Override

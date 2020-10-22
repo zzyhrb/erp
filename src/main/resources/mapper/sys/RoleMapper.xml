@@ -20,4 +20,15 @@
         delete from sys_role_user where rid=#{value}
     </delete>
 
+    <!-- 根据用户id 删除sys_role_user-->
+    <delete id="deleteRoleUserByUid">
+        delete from sys_role_user where uid=#{id}
+    </delete>
+
+    <!--查询当前用户拥有的角色id 集合-->
+    <select id="queryUserRoleIdsByUid" resultType="java.lang.Integer">
+        select rid from sys_role_user where uid=#{value}
+    </select>
+
+
 </mapper>
