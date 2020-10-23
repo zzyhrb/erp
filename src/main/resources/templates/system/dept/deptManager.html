@@ -1,11 +1,30 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>部门管理</title>
 </head>
-<frameset cols="200,*" border="1"  frameborder="yes">
-    <frame src="/sys/toDeptLeft" name="left">
-    <frame src="/sys/toDeptRight" name="right">
-</frameset>
+</body>
+
+<style>
+    #iframeTop{
+        width: 100%;
+        height: 70px;
+    }
+    #iframeLeft{
+        width: 15%;
+        height: 700px;
+        float: left;
+    }
+    #iframeContent{
+        width: 84%;
+        height: 700px;
+    }
+</style>
+<body>
+<div>
+    <iframe id="iframeLeft" name="left" frameborder="0" src="/sys/toDeptLeft"></iframe>
+    <iframe id="iframeContent" name="right" frameborder="0" src="/sys/toDeptRight"></iframe>
+</div>
+</body>
 </html>

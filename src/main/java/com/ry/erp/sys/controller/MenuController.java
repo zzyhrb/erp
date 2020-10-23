@@ -7,6 +7,7 @@ import com.ry.erp.sys.common.*;
 import com.ry.erp.sys.domain.Permission;
 import com.ry.erp.sys.domain.User;
 import com.ry.erp.sys.service.PermissionService;
+import com.ry.erp.sys.service.RoleService;
 import com.ry.erp.sys.vo.PermissionVo;
 import org.apache.commons.collections.map.HashedMap;
 import org.apache.commons.lang3.StringUtils;
@@ -14,10 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @description: 菜单控制器
@@ -28,6 +26,8 @@ import java.util.Map;
 @RequestMapping("/menu")
 public class MenuController {
 
+    @Autowired
+    private RoleService roleService;
     @Autowired
     private PermissionService permissionService;
 
@@ -51,6 +51,22 @@ public class MenuController {
             list = permissionService.list(queryWrapper);
         }else {
             //根据用户ID+角色+权限去查询
+            Integer userId = user.getId();
+            //根据用户id 查询角色
+            List<Integer> currentUserRoleIds = roleService.queryUserRoleIdsByUid(userId);
+            //根据角色id获取权限和菜单
+            Set<Integer> pids =new HashSet<>();
+            for (Integer rid:currentUserRoleIds){
+                List<Integer> permissionIds = roleService.queryRolePermissionIdsByRid(rid);
+                pids .addAll(permissionIds);
+            }
+            //根据角色id 查询权限
+            if(pids.size()>0){
+                    queryWrapper.in("id",pids);
+                    list=permissionService.list(queryWrapper);
+            }else{
+                list =new ArrayList<>();
+            }
             list = permissionService.list(queryWrapper);
         }
 

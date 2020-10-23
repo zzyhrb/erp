@@ -14,6 +14,8 @@ public class SystemController {
 	public String toLogin() {
 		return "system/index/login";
 	}
+
+
 	
 	/**
 	 * 跳转到首页
