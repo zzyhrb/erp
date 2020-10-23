@@ -52,4 +52,11 @@ public interface RoleMapper extends BaseMapper<Role> {
      * @return
      */
     List<Integer> queryUserRoleIdsByUid(Integer id);
+
+    /**
+     * 保存角色用户关系
+     * @param uid
+     * @param rid
+     */
+    void insertUserRole(@Param("uid") Integer uid, @Param("rid") Integer rid);
 }

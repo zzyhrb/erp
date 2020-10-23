@@ -45,4 +45,15 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         //删除用户头[如果是默认头像不删除  否则删除]
         return super.removeById(id);
     }
+
+    @Override
+    public void saveUserRole(Integer uid, Integer[] ids) {
+        //根据用户id删除sys_rolw_user数据
+        this.roleMapper.deleteRoleUserByUid(uid);
+        if(null !=uid && ids.length>0){
+            for(Integer rid:ids){
+                this.roleMapper.insertUserRole(uid,rid);
+            }
+        }
+    }
 }

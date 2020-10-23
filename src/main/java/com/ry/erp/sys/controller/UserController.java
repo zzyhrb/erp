@@ -83,6 +83,7 @@ public class UserController {
     public Map<String,Object> loadUserMaxOrderNum(){
         Map<String,Object> map =new HashMap<>();
         QueryWrapper<User> queryWrapper=new QueryWrapper<>();
+        queryWrapper.orderByDesc("ordernum");
         IPage<User> page =new Page<>(1,1);
         List<User> list = this.userService.page(page,queryWrapper).getRecords();
         if(list.size()>0){
@@ -232,6 +233,20 @@ public class UserController {
 
     }
 
-
+    /**
+     * 保存用户和角色之间关系
+     * @param
+     * @return
+     */
+    @RequestMapping("saveUserRole")
+    public ResultObj saveUserRole(Integer uid,Integer[]ids){
+        try {
+            this.userService.saveUserRole(uid,ids);
+            return ResultObj.DISPATCH_SUCCESS;
+        }catch (Exception e){
+            e.printStackTrace();
+            return ResultObj.DISPATCH_ERROR;
+        }
+    }
 }
 

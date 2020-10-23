@@ -30,5 +30,8 @@
         select rid from sys_role_user where uid=#{value}
     </select>
 
-
+    <!--保存角色用户关系-->
+    <insert id="insertUserRole">
+        insert into  sys_role_user(uid,rid)values (#{uid},#{rid})
+    </insert>
 </mapper>
