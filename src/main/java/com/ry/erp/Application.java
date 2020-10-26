@@ -5,7 +5,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-@MapperScan(basePackages= {"com.ry.erp.sys.mapper"})
+@MapperScan(basePackages= {"com.ry.erp.*.mapper"})
 
 public class Application {
 

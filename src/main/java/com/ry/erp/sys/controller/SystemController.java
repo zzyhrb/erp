@@ -50,6 +50,16 @@ public class SystemController {
 	}
 
 	/**
+	 * 婚礼账本
+	 * @return
+	 */
+	@RequestMapping("toLedger")
+	public String toLedger(){
+		return "system/ledger/LedgerManager";
+	}
+
+
+	/**
 	 * 跳转到部门管理
 	 *
 	 */
