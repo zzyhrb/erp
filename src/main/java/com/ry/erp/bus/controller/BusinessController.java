@@ -4,9 +4,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
- * 业务管理的路由器
- * @author LJH
- *
+ * @description:业务管理路由器
+ * @author zzy
+ * @date 2020/10/27 9:21
  */
 @Controller
 @RequestMapping("/bus")

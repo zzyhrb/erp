@@ -19,12 +19,9 @@ import com.ry.erp.sys.common.DataGridView;
 import com.ry.erp.sys.common.ResultObj;
 
 /**
- * <p>
- * 前端控制器
- * </p>
- *
- * @author 老雷
- * @since 2019-09-27
+ * @description:前端控制器
+ * @author zzy
+ * @date 2020/10/27 9:21
  */
 @RestController
 @RequestMapping("/customer")
