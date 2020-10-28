@@ -81,6 +81,31 @@ public class AppFileUtils {
 			return null;
 		}
 
+	/**
+	 * 根据路径改名字去掉_temp
+	 * @param goodsimg
+	 * @return
+	 */
+	public static String renameFile(String goodsimg) {
+		File file =new File(UPLOAD_PATH,goodsimg);
+		String replace = goodsimg.replace("_temp", "");
+		if(file.exists()) {
+			file.renameTo(new File(UPLOAD_PATH, replace));
+		}
+		return replace;
+	}
 
+	/**
+	 * 根据老路径删除图片
+	 * @param oldPath
+	 */
+	public static void removeFileByPath(String oldPath) {
+		if(!oldPath.equals(Constast.IMAGES_DEFAULTGOODSIMG_PNG)) {
+			File file=new File(UPLOAD_PATH, oldPath);
+			if(file.exists()) {
+				file.delete();
+			}
+		}
+	}
 
 }
