@@ -52,7 +52,7 @@ public class Goods implements Serializable {
     private Integer providerid;
     
     @TableField(exist=false)
-    private String providername;
+    private String providername; 
 
 
 }

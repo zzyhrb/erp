@@ -9,4 +9,5 @@ import com.ry.erp.bus.domain.Inport;
  * @Description:
  */
 public interface InportService extends IService<Inport> {
+    
 }

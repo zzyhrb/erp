@@ -11,10 +11,14 @@ import com.ry.erp.bus.service.InportService;
 import com.ry.erp.bus.service.ProviderService;
 import com.ry.erp.bus.vo.InportVo;
 import com.ry.erp.sys.common.DataGridView;
+import com.ry.erp.sys.common.ResultObj;
+import com.ry.erp.sys.common.WebUtils;
+import com.ry.erp.sys.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -65,6 +69,58 @@ public class InportController {
             }
         }
         return new DataGridView(page.getTotal(),page.getRecords());
+    }
+
+
+    /**
+     * 添加
+     * @param inportVo
+     * @return
+     */
+    @RequestMapping("addInport")
+    public ResultObj addInport(InportVo inportVo){
+        try {
+            inportVo.setInporttime(new Date());
+            User  user = (User) WebUtils.getSession().getAttribute("user");
+            inportVo.setOperateperson(user.getName());
+            this.inportService.save(inportVo);
+            return ResultObj.ADD_SUCCESS;
+        }catch (Exception e){
+            e.printStackTrace();
+            return ResultObj.ADD_ERROR;
+        }
+
+    }
+
+    /**
+     * 修改
+     * @return
+     */
+    @RequestMapping("updateInport")
+    public ResultObj updateInport(InportVo inportVo){
+        try {
+            this.inportService.updateById(inportVo);
+            return ResultObj.UPDATE_SUCCESS;
+        }catch (Exception e){
+            e.printStackTrace();
+            return ResultObj.UPDATE_ERROR;
+        }
+    }
+
+    /**
+     *删除
+     * @return
+     */
+    @RequestMapping("deleteInport")
+    public ResultObj deleteInport(Integer id){
+        try{
+            this.inportService.removeById(id);
+            return ResultObj.DELETE_SUCCESS;
+        }catch (Exception e){
+            e.printStackTrace();
+            return ResultObj.DELETE_ERROR;
+        }
+
     }
 
 
