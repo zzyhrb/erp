@@ -57,3 +57,14 @@ shiro:
   log-out-url: /login/logout*
   authc-ulrs:
   - /**
+
+swagger:
+　　 enabled: true
+
+
+#防止被登录转向
+client:
+  filters:
+  filter:
+    chain:
+      definitions: /swagger-ui.html=anon;/webjars/**=anon;/swagger-resources/**=anon;/v2/api-docs/**=anon;/**=authc;
