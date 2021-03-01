@@ -1,6 +1,7 @@
 package com.ry.erp.sys.controller;
 
 
+import com.alibaba.excel.EasyExcel;
 import com.ry.erp.sys.common.ResultObj;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,10 +16,14 @@ import com.ry.erp.sys.domain.Loginfo;
 import com.ry.erp.sys.service.LoginfoService;
 import com.ry.erp.sys.vo.LoginfoVo;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.io.Serializable;
+import java.net.URLEncoder;
 import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 
 /**
@@ -29,7 +34,7 @@ import java.util.Collection;
 @RestController
 @RequestMapping("/loginfo")
 public class LoginfoController {
-
+    public static  String UPLOAD_PATH="E:/upload/";//默认值
     @Autowired
     private LoginfoService loginfoService;
 
@@ -86,16 +91,37 @@ public class LoginfoController {
             e.printStackTrace();
             return ResultObj.DELETE_ERROR;
         }
+    }
+
+    /**
+     * 导出登录日
+     */
+    @RequestMapping("exportCustomer")
+    public void exportCustomer(LoginfoVo loginfoVo, HttpServletResponse response)throws IOException {
+       // String fileName =UPLOAD_PATH + "登录日志.xlsx";
+        QueryWrapper<Loginfo> queryWrapper=new QueryWrapper<>();
+        queryWrapper.like(StringUtils.isNotBlank(loginfoVo.getLoginname()),"loginname", loginfoVo.getLoginname());
+        queryWrapper.like(StringUtils.isNotBlank(loginfoVo.getLoginip()), "loginip",loginfoVo.getLoginip());
+        queryWrapper.ge(loginfoVo.getStartTime()!=null, "logintime", loginfoVo.getStartTime());
+        queryWrapper.le(loginfoVo.getEndTime()!=null, "logintime", loginfoVo.getEndTime());
+        queryWrapper.orderByDesc("logintime");
+        List<Loginfo> list = this.loginfoService.list(queryWrapper);
 
 
+        // 这里注意 有同学反应使用swagger 会导致各种问题，请直接用浏览器或者用postman
+        response.setContentType("application/vnd.ms-excel");
+        response.setCharacterEncoding("utf-8");
+        // 这里URLEncoder.encode可以防止中文乱码 当然和easyexcel没有关系
+        String fileName = URLEncoder.encode("登录日志", "UTF-8");
+        response.setHeader("Content-disposition", "attachment;filename=" + fileName + ".xlsx");
+        EasyExcel.write(response.getOutputStream(), Loginfo.class).sheet("模板").doWrite(list);
 
-
-
-
-
-
+       // EasyExcel.write(fileName, Loginfo.class).sheet("模板").doWrite(list);
 
 
     }
+
+
+
 
 }

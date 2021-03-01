@@ -38,7 +38,6 @@ public class LoginController {
 			subject.login(token);
 			ActiverUser activerUser = (ActiverUser) subject.getPrincipal();
 			WebUtils.getSession().setAttribute("user",activerUser.getUser());
-
 			//添加登录日志
 			Loginfo entity =new Loginfo();
 			entity.setLoginname(activerUser.getUser().getName()+"-"+activerUser.getUser().getLoginname());

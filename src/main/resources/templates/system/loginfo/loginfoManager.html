@@ -48,6 +48,8 @@
             <div class="layui-input-block" style="text-align: center;">
                 <button type="button" class="layui-btn" lay-submit="" lay-filter="doSearch"><span class="layui-icon layui-icon-search"></span>查询</button>
                 <button type="reset" class="layui-btn layui-btn-warm"><span class="layui-icon layui-icon-refresh-1"></span>重置</button>
+                <button type="button" class="layui-btn" lay-submit="" id="doExcel"><span class="layui-icon layui-icon-download-circle"></span>导出</button>
+
             </div>
         </div>
     </form>
@@ -59,6 +61,7 @@
     <table class="layui-hide" id="loginfoTable" lay-filter="loginfoTable"></table>
     <div id="loginfoToolBar" style="display: none;">
         <button type="button" lay-event="batchDelete" class="layui-btn layui-btn-sm layui-btn-danger"><span class="layui-icon layui-icon-delete"></span>批量删除</button>
+
     </div>
 
     <div id="loginfoRowBar" style="display: none;">
@@ -176,7 +179,12 @@
             }
 
         }
+        //到处
+        $("#doExcel").click(function(){
+           var  params =$("#searchFrm").serialize();
+           window.location.href="/loginfo/exportCustomer?"+params;
 
+        })
 
 
     });

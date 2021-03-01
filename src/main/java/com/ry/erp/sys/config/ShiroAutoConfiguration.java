@@ -112,6 +112,10 @@ public class ShiroAutoConfiguration {
 //		filters.put("authc", new ShiroLoginFilter());
 		//配置过滤器
 		factoryBean.setFilters(filters);
+		filterChainDefinitionMap.put("/swagger-ui.html", "anon");
+		filterChainDefinitionMap.put("/webjars/**", "anon");
+		filterChainDefinitionMap.put("/v2/**", "anon");
+		filterChainDefinitionMap.put("/swagger-resources/**", "anon");
 		factoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
 		return factoryBean;
 	}
