@@ -11,4 +11,6 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public interface LedgerService  extends IService<Ledger> {
+
+
 }

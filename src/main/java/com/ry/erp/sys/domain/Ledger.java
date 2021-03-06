@@ -1,6 +1,7 @@
 package com.ry.erp.sys.domain;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.ry.erp.sys.cache.CacheAspect;
@@ -30,5 +31,7 @@ public class Ledger implements Serializable {
     private  Integer start;
     private  String	type;
     private  String	descrip;
+    @TableField(exist = false)
+    private  double smoney;
 
 }

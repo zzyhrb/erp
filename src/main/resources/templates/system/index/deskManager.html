@@ -11,11 +11,24 @@
 	<meta name="format-detection" content="telephone=no">
 	<link rel="stylesheet" href="/resources/layui/css/layui.css" media="all" />
 	<link rel="stylesheet" href="/resources/css/public.css" media="all" />
+	<style>
+
+		.weather {
+
+			margin: -39px -24px -33px 1080px;
+		}
+
+	</style>
 </head>
 <body class="childrenBody">
 	<blockquote class="layui-elem-quote layui-bg-green">
 		<div id="nowTime"></div>
+		<div class="weather">
+			<iframe width="200" scrolling="no" height="65" frameborder="0" allowtransparency="true" src="http://i.tianqi.com/index.php?c=code&id=12&icon=1&num=1">
+			</iframe>
+		</div>
 	</blockquote>
+
 	<div class="layui-row layui-col-space10">
 		<div class="layui-col-lg6 layui-col-md12">
 			<blockquote class="layui-elem-quote title">最新文章 <i class="layui-icon layui-red">&#xe756;</i></blockquote>

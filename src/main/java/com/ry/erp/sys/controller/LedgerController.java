@@ -13,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 /**
  * @author: zzy
  * @Date: $ $
@@ -38,7 +40,12 @@ public class LedgerController {
         queryWrapper.eq(ledgerVo.getStart()!=null ,"start",ledgerVo.getStart());
         queryWrapper.orderByDesc("money");
         this.ledgerService.page(page,queryWrapper);
-        return new  DataGridView(page.getTotal(),page.getRecords());
+        List<Ledger> list =page.getRecords();
+        double cmo = list.stream().mapToDouble(Ledger::getMoney).sum();//和
+        for (Ledger ledger:list) {
+            ledger.setSmoney(cmo);
+        }
+        return new  DataGridView(page.getTotal(),list);
     }
 
     /**
