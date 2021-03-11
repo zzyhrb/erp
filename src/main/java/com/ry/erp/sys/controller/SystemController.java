@@ -167,4 +167,8 @@ public class SystemController {
 		return "system/cache/cacheManager";
 	}
 
+	@RequestMapping("toPassWord")
+	public String toPassWord(){
+		return "system/password/passwordManager";
+	}
 }

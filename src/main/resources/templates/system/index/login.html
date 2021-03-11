@@ -1,10 +1,11 @@
 <!DOCTYPE html>
-<html class="loginHtml">
+<html class="loginHtml"  xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
 	<meta charset="utf-8">
 	<title>登录</title>
 
 	<link rel="stylesheet" href="/resources/layui-v2.5.5/css/layui.css" media="all">
+
 	<style>
 		body {background-image:url("/resources/images/bg.jpg");height:100%;width:100%;}
 		#container{height:100%;width:100%;}
@@ -29,7 +30,7 @@
 <div id="container">
 	<div class="admin-login-background">
 	<div class="admin-header">
-		<span>layuimini</span>
+		<span>后台管理系统</span>
 	</div>
 
 	<form class="layui-form" action="">
@@ -41,10 +42,15 @@
 			<i class="layui-icon layui-icon-password admin-icon"></i>
 			<input type="password" name="pwd" placeholder="请输入密码" autocomplete="off" class="layui-input admin-input" value="">
 		</div>
-		<div>
-			<input type="text" name="captcha" placeholder="请输入验证码" autocomplete="off" class="layui-input admin-input admin-input-verify" >
-			<img class="admin-captcha" width="90" height="30" src="../images/captcha.jpg">
+		<div class="layui-row">
+			<div class="layui-col-xs7">
+			<input type="text" name="vercode" placeholder="请输入验证码" autocomplete="off" class="layui-input admin-input admin-input-verify" >
+			</div>
+			<div class="layui-col-xs5">
+			<img th:src="@{/captcha}" class="kvf-user-login-codeimg" id="kUserGetVerCode" title="点击刷新验证码" style="margin: 0px -9px;">
+			</div>
 		</div>
+
 		<button class="layui-btn layui-block" lay-filter="login" lay-submit>登录</button>
 	</form>
 </div>
@@ -52,7 +58,7 @@
 
 	<script src="/resources/layui-v2.5.5/layui.js" charset="utf-8"></script>
 	<script type="text/javascript" src="/resources/js/cache.js"></script>
-	
+
 	<script type="text/javascript">
 	layui.use(['form','layer','jquery'],function(){
 	    var form = layui.form,
@@ -101,6 +107,19 @@
 	            $(this).parent().removeClass("layui-input-active");
 	        }
 	    })
+
+
+		refreshVerCode();
+		$('#kUserGetVerCode').on('click', function () {
+
+			refreshVerCode();
+		});
+
+		// 刷新图片验证码
+		function refreshVerCode() {
+			$('#kUserGetVerCode').attr('src', "/login/captcha" + '?t=' + Math.random());
+			$('#kUserLoginVercode').val('');
+		}
 	})
 
 	</script>

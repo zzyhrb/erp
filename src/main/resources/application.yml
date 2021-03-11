@@ -53,10 +53,25 @@ shiro:
   - /sys/toLogin*
   - /login/login*
   - /resources/**
+  - /login/captcha*
   login-url: /index.html
   log-out-url: /login/logout*
   authc-ulrs:
   - /**
+# kvf自定义配置
+kvf:
+  login:
+    authcode:
+      # 登录验证码是否开启，开发环境配置false方便测试
+      enable: true
+      # 是否动态
+      dynamic: true
+  # quartz开关
+  quartz:
+    enable: true
+  # 缓存开关
+  cache:
+    enable: false
 
 swagger:
 　　 enabled: true
@@ -68,3 +83,5 @@ client:
   filter:
     chain:
       definitions: /swagger-ui.html=anon;/webjars/**=anon;/swagger-resources/**=anon;/v2/api-docs/**=anon;/**=authc;
+
+

@@ -76,5 +76,7 @@ public class User implements Serializable {
      */
     @TableField(exist = false)
     private String deptname;
+    @TableField(exist = false)
+    private String Code;
 
 }
