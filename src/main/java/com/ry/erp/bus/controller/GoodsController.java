@@ -61,6 +61,7 @@ public class GoodsController {
         return new DataGridView(page.getTotal(),recores);
     }
 
+
     /**
      * 添加
      * @param goodsVo

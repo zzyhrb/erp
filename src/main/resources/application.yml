@@ -1,12 +1,12 @@
 #配置数据源的属性
 server:
-  port: 8081 # 端口
+  port: 8082 # 端口
 spring:
   datasource:
     druid:
       driver-class-name: com.mysql.cj.jdbc.Driver
-      url: jdbc:mysql://101.200.228.102:3306/erp?useUnicode=true&characterEncoding=utf8&nullCatalogMeansCurrent=true&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=UTC
-#      url: jdbc:mysql://localhost:3306/bills?useUnicode=true&characterEncoding=utf8&nullCatalogMeansCurrent=true&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=UTC
+#      url: jdbc:mysql://101.200.228.102:3306/erp?useUnicode=true&characterEncoding=utf8&nullCatalogMeansCurrent=true&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=UTC
+      url: jdbc:mysql://localhost:3306/erp?useUnicode=true&characterEncoding=utf8&nullCatalogMeansCurrent=true&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=UTC
       username: root
       password: root
       max-active: 20
@@ -63,7 +63,7 @@ kvf:
   login:
     authcode:
       # 登录验证码是否开启，开发环境配置false方便测试
-      enable: true
+      enable: false
       # 是否动态
       dynamic: true
   # quartz开关
